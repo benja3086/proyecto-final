@@ -1,0 +1,6 @@
+@trabajo_final_api_rest_HostAddress = http://localhost:5258
+
+GET {{trabajo_final_api_rest_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
