@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("trabajo-final-api-rest")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bd68bf264de4ec12df919517d567020fff70aaf5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+911a0c9878937c5af3b4ca32f121b5cf6fb91b34")]
 [assembly: System.Reflection.AssemblyProductAttribute("trabajo-final-api-rest")]
 [assembly: System.Reflection.AssemblyTitleAttribute("trabajo-final-api-rest")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
