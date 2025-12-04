@@ -1,6 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using trabajo_final_api_rest.Data;
+using trabajo_final_api_rest.Dtos;
 using trabajo_final_api_rest.model;
+using trabajo_final_api_rest.Services;
 
 namespace trabajo_final_api_rest.Controllers
 {
@@ -8,52 +12,54 @@ namespace trabajo_final_api_rest.Controllers
     [Route("[controller]")]
     public class ProductosController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
         private readonly ILogger<ProductosController> _logger;
-
+        private readonly IProductoService _service;
         private readonly AppDbContext _context;
 
-        public ProductosController(AppDbContext context, ILogger<ProductosController> logger)
+        public ProductosController(
+     IProductoService service,
+     AppDbContext context,
+     ILogger<ProductosController> logger)
         {
-            _context = context;
+            _service = service;
             _logger = logger;
         }
 
-        //[HttpGet(Name = "GetWeatherForecast")]
-        //public async Producto Get()
-        //{
-        //    Usuarios user = new Usuarios();
 
-        //    return user;
-
-        //}
-        [HttpPost()]
-        public async Task<ActionResult<Producto>> Post()
+        [HttpGet()]
+        public async Task<ActionResult<IEnumerable<ProductoResponseDto>>> Get()
         {
-            Producto producto = new Producto();
-            producto.Id = 1;
-            producto.Titulo = "plato";
-            producto.Stock = 5;
-            producto.Precio = 100;
-            producto.Descripcion = "plato facil de romper";
-
-            _context.productos.Add(producto);
-            await _context.SaveChangesAsync();
-            
-            return CreatedAtAction(nameof(Post),new {Id=producto.Id},producto);
+            var productos = await _service.GetAll();
+            return Ok(productos);
         }
-        //[HttpDelete()]
-        //public async Producto Delete()
-        //{
-        //    Usuarios user = new Usuarios();
-        //    user.nombre = "";
-        //    user.apellido = "";
-        //    user.email = "";
-        //    return user;
-        //}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ProductoResponseDto>> GetId(int id)
+        {
+            var producto = await _service.GetById(id);
+            if (producto == null) return NotFound();
+            return Ok(producto);
+        }
+        [HttpPost]
+        public async Task<ActionResult<ProductoResponseDto>> Post(ProductoCreateDto dto)
+        {
+            var productoCreado = await _service.Create(dto);
+
+            return CreatedAtAction(nameof(GetId), new { id = productoCreado.id }, productoCreado);
+        }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Producto>> Delete(int id)
+        {
+            var ProductoDeleted = await _service.Delete(id);
+            return Ok("Producto eliminado");
+        }
+
+        [HttpPut("{id}")]
+
+        public async Task<ActionResult<Producto>> Put(int id, ProductoUpdateDto dto)
+        {
+            var producto = await _service.Put(id, dto);
+            return Ok (producto);
+        }
+
     }
 }
