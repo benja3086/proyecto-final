@@ -1,109 +1,66 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using Microsoft.EntityFrameworkCore;
 using trabajo_final_api_rest.Data;
 using trabajo_final_api_rest.Dtos;
 using trabajo_final_api_rest.model;
+using AutoMapper;
 
 namespace trabajo_final_api_rest.Services
 {
     public class ProductoService : IProductoService
     {
         private readonly AppDbContext _context;
+        private readonly IMapper _mapper;
 
-        public ProductoService(AppDbContext context)
+        public ProductoService(AppDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<List<ProductoResponseDto>> GetAll()
         {
-            return await _context.productos
-                .Select(p => new ProductoResponseDto
-                {
-                    id = p.id,
-                    titulo = p.titulo,
-                    precio = p.precio,
-                    stock = p.stock,
-                    descripcion = p.descripcion
-                })
-                .ToListAsync();
+            var productos = await _context.productos.ToListAsync();
+            return _mapper.Map<List<ProductoResponseDto>>(productos);
         }
+
         public async Task<ProductoResponseDto?> GetById(int id)
         {
-            var p = await _context.productos.FindAsync(id);
-            if (p == null) return null;
-
-            return new ProductoResponseDto
-            {
-                id = p.id,
-                titulo = p.titulo,
-                precio = p.precio,
-                stock = p.stock,
-                descripcion = p.descripcion
-            };
+            var producto = await _context.productos.FindAsync(id);
+            return _mapper.Map<ProductoResponseDto?>(producto);
         }
+
         public async Task<ProductoResponseDto> Create(ProductoCreateDto dto)
         {
-            var producto = new Producto
-            {
-                titulo = dto.titulo,
-                precio = dto.precio,
-                stock = dto.stock,
-                descripcion = dto.descripcion
-            };
+            var producto = _mapper.Map<Producto>(dto);
 
             _context.productos.Add(producto);
             await _context.SaveChangesAsync();
 
-            return new ProductoResponseDto
-            {
-                id = producto.id,
-                titulo = producto.titulo,
-                precio = producto.precio,
-                stock = producto.stock,
-                descripcion = producto.descripcion
-            };
+            return _mapper.Map<ProductoResponseDto>(producto);
         }
-        public async Task<ProductoResponseDto?> Delete( int id)
-        {
-         var productoEncontrado = await _context.productos.FindAsync(id);
-            if (productoEncontrado == null)
-            {
-                return null;
-            }
-            _context.productos.Remove(productoEncontrado);
 
+        public async Task<ProductoResponseDto?> Delete(int id)
+        {
+            var producto = await _context.productos.FindAsync(id);
+            if (producto == null) return null;
+
+            _context.productos.Remove(producto);
             await _context.SaveChangesAsync();
-            return new ProductoResponseDto
-            {
-                id = productoEncontrado.id,
-                titulo = productoEncontrado.titulo,
-                precio = productoEncontrado.precio,
-                stock = productoEncontrado.stock,
-                descripcion = productoEncontrado.descripcion
-            };
+
+            return _mapper.Map<ProductoResponseDto>(producto);
         }
+
         public async Task<ProductoResponseDto?> Put(int id, ProductoUpdateDto dto)
         {
             var producto = await _context.productos.FindAsync(id);
             if (producto == null) return null;
 
-            producto.titulo = dto.titulo;
-            producto.precio = dto.precio;
-            producto.stock = dto.stock;
-            producto.descripcion = dto.descripcion;
-
+            // mapear dto → producto existente
+            _mapper.Map(dto, producto);
 
             await _context.SaveChangesAsync();
-            return new ProductoResponseDto
-            {
-                id = producto.id,
-                titulo = producto.titulo,
-                precio = producto.precio,
-                stock = producto.stock,
-                descripcion = producto.descripcion
-            };
+
+            return _mapper.Map<ProductoResponseDto>(producto);
         }
     }
 }
