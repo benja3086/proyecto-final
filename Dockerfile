@@ -18,7 +18,7 @@ WORKDIR /app
 COPY --from=build /app/publish .
 
 # Puerto por defecto del contenedor
-EXPOSE 5258
+EXPOSE 8080
 
 # Comando de arranque
 ENTRYPOINT ["dotnet", "trabajo-final-api-rest.dll"]

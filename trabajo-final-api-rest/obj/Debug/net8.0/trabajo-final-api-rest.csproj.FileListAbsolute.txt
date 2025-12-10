@@ -26,7 +26,6 @@ C:\Users\timot\OneDrive\Documentos\Programacion\trabajo-final-api-rest\trabajo-f
 C:\Users\timot\OneDrive\Documentos\Programacion\trabajo-final-api-rest\trabajo-final-api-rest\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\timot\OneDrive\Documentos\Programacion\trabajo-final-api-rest\trabajo-final-api-rest\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\timot\OneDrive\Documentos\Programacion\trabajo-final-api-rest\trabajo-final-api-rest\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\timot\OneDrive\Documentos\Programacion\trabajo-final-api-rest\trabajo-final-api-rest\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\timot\OneDrive\Documentos\Programacion\trabajo-final-api-rest\trabajo-final-api-rest\obj\Debug\net8.0\trabajo-.671C81DF.Up2Date
 C:\Users\timot\OneDrive\Documentos\Programacion\trabajo-final-api-rest\trabajo-final-api-rest\obj\Debug\net8.0\trabajo-final-api-rest.dll
 C:\Users\timot\OneDrive\Documentos\Programacion\trabajo-final-api-rest\trabajo-final-api-rest\obj\Debug\net8.0\refint\trabajo-final-api-rest.dll
